@@ -1,0 +1,16 @@
+.modal-transparent {
+  width: 100% !important;
+
+  &-mask {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(20px);
+  }
+
+  .ant-modal-content {
+    @apply bg-transparent shadow-none;
+
+    .ant-modal-body {
+      @apply flex flex-col items-center justify-center;
+    }
+  }
+}

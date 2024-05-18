@@ -1,0 +1,43 @@
+.sider.ant-layout-sider {
+  @apply w-full max-w-62 basis-auto #{!important};
+  background-color: #0C2444;
+  &-collapsed {
+    @apply max-w-24 #{!important};
+  }
+
+  .ant-layout-sider-children {
+    @apply overflow-auto pt-4.5;
+
+    .ant-menu.ant-menu-root {
+      @apply mt-8.5 border-none bg-inherit px-5;
+
+      .ant-menu-item {
+        @apply flex h-12 items-center px-3 text-sm font-bold text-white;
+        padding-inline: 12px !important;
+
+        & > svg {
+          @apply flex-shrink-0;
+        }
+
+        &-selected {
+          @apply bg-white;
+          background-color: rgb(57, 152, 71);
+
+          & > svg > path {
+          }
+
+          & > svg.icon-fill > path {
+          }
+        }
+
+        &-disabled {
+          @apply hidden text-gray #{!important};
+
+          & > svg > path {
+            @apply stroke-gray;
+          }
+        }
+      }
+    }
+  }
+}

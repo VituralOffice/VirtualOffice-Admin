@@ -1,0 +1,17 @@
+@layer utilities {
+  .clip-text {
+    @apply bg-clip-text text-transparent;
+  }
+
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .image-cover {
+    @apply h-full w-full object-cover object-center;
+  }
+
+  .image-contain {
+    @apply h-full w-full object-contain object-center;
+  }
+}

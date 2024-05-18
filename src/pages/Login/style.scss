@@ -1,0 +1,32 @@
+.login-form {
+  @apply rounded-2xl px-13 py-9;
+
+  .ant-form-item {
+    @apply mb-4 max-w-77 w-full;
+
+    .ant-input-affix-wrapper {
+      @apply h-15 rounded-7.5 px-6.5 py-4.5;
+
+      .ant-input-prefix {
+        @apply mr-2;
+      }
+
+      .ant-input {
+        @apply text-base placeholder:text-black/30;
+      }
+    }
+
+    .ant-btn {
+      @apply h-14 w-full rounded-7.5 border-none bg-primary text-base font-bold text-white hover:bg-primary disabled:bg-gray disabled:text-white disabled:hover:bg-gray #{!important};
+    }
+  }
+
+  .ant-input-affix-wrapper-disabled {
+    @apply bg-white hover:bg-white disabled:hover:bg-inherit;
+  }
+}
+.bg-container {
+  background-image: url("../../assets/images/bg-effen.png") ;
+  background-repeat: no-repeat;
+  background-size:100% 100%;
+}

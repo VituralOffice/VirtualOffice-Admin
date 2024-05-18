@@ -1,0 +1,108 @@
+.custom-table.ant-table-wrapper {
+  .ant-spin-nested-loading {
+    @apply h-full overflow-x-auto;
+
+    .ant-spin-container {
+      @apply flex h-fit flex-col justify-between;
+    }
+  }
+
+  .ant-table {
+    @apply border-0  text-base text-black;
+    background-color:  rgba(18, 69, 131, 1);
+    .ant-table-header {
+      @apply rounded-none;
+
+      .ant-table-thead {
+        & > tr > th {
+          @apply whitespace-nowrap rounded-none  text-base text-white #{!important};
+          background-color:  rgba(50, 83, 121) !important;
+        }
+      }
+    }
+
+    .ant-table-tbody {
+      .ant-table-placeholder {
+        @apply #{!important};
+        background-color: #153760 !important;
+        > td {
+          @apply  #{!important};
+          background-color: #153760 !important;
+        }
+
+        .ant-empty-description {
+          @apply text-black;
+        }
+      }
+
+      .ant-table-row {
+        color: white;
+        &:nth-child(2n + 1) {
+          @apply bg-white1;
+          background-color: #153760 !important;
+          color: white;
+        }
+
+        td {
+          background-color: #153760 !important;
+          &:not(:last-child)::after {
+            @apply absolute right-0 top-1/2 h-6.5 w-[1px] -translate-y-1/2 bg-gray content-empty;
+          }
+        }
+
+        .ant-table-cell {
+          @apply px-1;
+        }
+
+        .ant-table-cell-row-hover {
+          @apply bg-inherit;
+        }
+      }
+    }
+  }
+
+  .ant-pagination {
+    @apply mb-0 mt-4 justify-center #{!important};
+
+    .ant-pagination-prev,
+    .ant-pagination-next {
+      @apply hidden #{!important};
+    }
+
+    .ant-pagination-item {
+      @apply rounded-full border border-light-gray;
+
+      a {
+        @apply font-normal text-white;
+      }
+
+      &-active {
+        @apply bg-primary;
+
+        &:hover a {
+          @apply text-white;
+        }
+      }
+
+      &:not(.ant-pagination-item-active):hover {
+        @apply bg-primary;
+
+        a {
+          @apply text-white;
+        }
+      }
+    }
+
+    .ant-pagination-item:not(.ant-pagination-item-active) {
+      @apply bg-white;
+
+      a {
+        @apply text-black;
+      }
+    }
+
+    .ant-pagination-options {
+      @apply hidden;
+    }
+  }
+}

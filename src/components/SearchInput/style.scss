@@ -1,0 +1,21 @@
+.search-dropdown {
+  .ant-select-item.ant-select-item-option {
+    @apply relative py-2 pl-10;
+
+    &::before {
+      @apply absolute left-2.5 top-1/2 h-5 w-5 -translate-y-1/2 bg-[url('@/assets/icons/ic-gray-search.svg')] bg-contain content-empty;
+    }
+  }
+}
+
+.search-input {
+  @apply h-12 rounded-2 pl-3 pr-15;
+
+  .ant-input {
+    @apply h-full  bg-transparent text-sm text-white placeholder:text-gray focus:shadow-none #{!important};
+  }
+
+  &.ant-input-affix-wrapper {
+    @apply border-0 shadow-none;
+  }
+}

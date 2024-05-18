@@ -1,0 +1,158 @@
+.ant-form-item-explain {
+  @apply hidden;
+}
+
+.ant-input {
+  @apply border-0 border-none;
+
+  &:focus-within {
+    @apply shadow-none;
+  }
+}
+/* Disable hover style for Ant Design buttons */
+
+
+.ant-btn {
+  @apply shadow-none;
+}
+.ant-btn:hover {
+}
+
+.ant-wave {
+  @apply hidden #{!important};
+}
+
+.ant-layout {
+  @apply bg-unset;
+}
+
+.ant-popover-arrow {
+  @apply hidden #{!important};
+}
+
+.ant-badge-count {
+  background: #0c8940 !important;
+  box-shadow: 0 0 0 1px rgba(249, 60, 101, 0.2) !important;
+
+  .current {
+    @apply font-bold;
+  }
+}
+
+.ant-typography,
+label {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.ant-modal {
+  width: 616px !important;
+
+  .ant-modal-content {
+    max-height: calc(100vh - 32px);
+
+    @apply flex flex-col overflow-auto rounded-5 px-4 py-6;
+
+    .ant-modal-title {
+      @apply pb-6 text-center text-2xl font-bold leading-normal ;
+    }
+
+    .ant-modal-close {
+      @apply h-7.25 w-7.25 hover:bg-transparent;
+    }
+
+    .ant-modal-body {
+      @apply flex-1 overflow-auto;
+    }
+
+    .ant-modal-footer {
+      @apply mt-0 flex items-center justify-center;
+
+      & > button {
+        @apply h-13.5 w-75 rounded-7.5 border-none bg-primary text-base font-bold text-white hover:text-white disabled:bg-gray;
+      }
+    }
+  }
+}
+
+.ant-form-item-label {
+  & > label {
+    @apply text-base font-bold #{!important};
+
+    &.ant-form-item-required::before {
+      @apply hidden #{!important};
+    }
+  }
+}
+
+.ant-picker-range,
+.ant-picker {
+  @apply border-none bg-white1 shadow-none;
+
+  input {
+    @apply outline-none #{!important};
+  }
+}
+
+.ant-picker-outlined {
+  &:hover,
+  &:focus-within {
+    @apply bg-white1;
+  }
+}
+
+.ant-input,
+.ant-picker {
+  .ant-picker-input > input {
+    @apply text-black;
+  }
+
+  .anticon-calendar > svg {
+    @apply fill-black;
+  }
+
+  .ant-picker-clear {
+    @apply bg-white1;
+
+    svg {
+      @apply h-5 w-5;
+    }
+  }
+
+  &-status-error {
+    @apply bg-white1 shadow-none #{!important};
+  }
+}
+
+.ant-select {
+  @apply h-12 w-full max-w-unset;
+
+  .ant-select-selector {
+    @apply rounded-2 border-none bg-white1 shadow-none outline-none #{!important};
+  }
+
+  .ant-select-clear {
+    @apply bg-white1;
+  }
+}
+
+.ant-picker-focused.ant-picker {
+  @apply border-primary shadow-none;
+}
+.yankees-bg {
+  background-color: #0C2444 !important;
+}
+.green-bg {
+  background-color: green !important;
+}
+.green-color {
+  color: green !important;
+}
+.blue-bg {
+  background-color: #153760 !important;;
+}
+.text-blue {
+  color:  rgba(63, 109, 166, 1);
+}
+.blue-border {
+  @apply border border-solid border-blue-500  #{!important};
+}

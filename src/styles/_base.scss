@@ -1,0 +1,46 @@
+html,
+body {
+  @apply m-0 p-0 text-base font-normal tracking-wider antialiased;
+  background-color:#0C2444; 
+}
+
+* {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+ul li {
+  @apply list-none;
+
+  a {
+    @apply no-underline;
+  }
+}
+
+@layer base {
+  button,
+  input {
+    outline: none !important;
+  }
+
+  img {
+    @apply select-none;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition: 'color 9999s ease-out, background-color 9999s ease-out';
+  -webkit-transition-delay: 9999s;
+}
+
+::-webkit-scrollbar {
+  @apply hidden;
+}
+
+// Hide increase, decrease in number inputs
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}

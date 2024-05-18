@@ -1,0 +1,165 @@
+.my-modal {
+  .ant-row:last-child .ant-form-item {
+    @apply mb-0;
+  }
+  width: 488px !important;
+  .ant-upload {
+    @apply w-full;
+
+    &-list-item {
+      @apply mt-0;
+    }
+  }
+  .ant-col {
+    .ant-form-item-label > label {
+      @apply text-white #{!important};
+    }
+  }
+  .ant-modal-content {
+    @apply blue-bg  #{!important};
+    .ant-modal-header {
+    @apply blue-bg text-white #{!important};
+    .ant-modal-title {
+      @apply text-white #{!important};
+    }
+    .ant-form-item-label {
+      @apply text-white #{!important};
+    }
+    }
+  }
+  .ant-input-affix-wrapper {
+    @apply h-12 border-none bg-white1 py-0 shadow-none #{!important};
+  }
+
+  .ant-input {
+    @apply text-white blue-bg  border border-solid border-blue-500   #{!important};
+  }
+  .ant-input::placeholder  { 
+    @apply text-blue #{!important};
+  }
+  .ant-picker {
+    @apply  h-12 w-full max-w-unset blue-bg  border border-solid border-blue-500 #{!important};
+    .ant-picker-input> input {
+      @apply text-white #{!important};
+    }
+  }
+  
+  .ant-picker-input>input::placeholder {
+    @apply text-blue #{!important};
+  }
+  .ant-modal-body {
+    @apply overflow-x-hidden #{!important};
+    .ant-form-item-required {
+      @apply text-white #{!important};
+    }
+  }
+  .ant-select-selector {
+    @apply text-left  blue-bg  border border-solid text-white border-blue-500 #{!important};
+    .ant-select-open {
+      @apply text-left  blue-bg  text-white #{!important};
+    }
+  }
+  .ant-modal-footer {
+    @apply mt-6 #{!important};
+
+    & > button {
+      @apply green-bg #{!important};
+    }
+  }
+
+  .btn-upload {
+    @apply flex h-12 w-full items-center justify-center rounded-2 border-none bg-transparent bg-white1 text-gray outline-none;
+  }
+}
+.delete-modal {
+  @apply mt-0  #{!important};
+  width: 488px !important;
+  .ant-upload {
+    @apply w-full;
+
+    &-list-item {
+      @apply mt-0;
+    }
+  }
+  .ant-modal-content {
+    @apply blue-bg  #{!important};
+    .ant-modal-header {
+    @apply blue-bg text-white #{!important};
+    .ant-modal-title {
+      @apply text-white #{!important};
+    }
+    }
+  }
+  .ant-input-affix-wrapper {
+    @apply h-12 border-none bg-white1 py-0 shadow-none #{!important};
+  }
+
+  .ant-input {
+    @apply text-white blue-bg  border border-solid border-blue-500   #{!important};
+  }
+  .ant-input::placeholder  { 
+    @apply text-blue #{!important};
+  }
+  .ant-picker {
+    @apply  h-12 w-full max-w-unset blue-bg  border border-solid border-blue-500 #{!important};
+    .ant-picker-input> input {
+      @apply text-white #{!important};
+    }
+  }
+  
+  .ant-picker-input>input::placeholder {
+    @apply text-blue #{!important};
+  }
+  .ant-modal-body {
+    @apply overflow-x-hidden #{!important};
+    .ant-form-item-required {
+      @apply text-white #{!important};
+    }
+  }
+  .ant-select-selector {
+    @apply text-left  blue-bg  border border-solid text-white border-blue-500 #{!important};
+    .ant-select-open {
+      @apply text-left  blue-bg  text-white #{!important};
+    }
+  }
+  .ant-modal-footer {
+    @apply mt-6 #{!important};
+  }
+
+  .btn-upload {
+    @apply flex h-12 w-full items-center justify-center rounded-2 border-none bg-transparent bg-white1 text-gray outline-none;
+  }
+}
+.custom-tabs {
+  .ant-tabs-nav {
+    @apply absolute right-6 z-1 -translate-y-2;
+
+    &::before {
+      @apply hidden;
+    }
+
+    &-list {
+      @apply gap-4;
+    }
+  }
+
+  .ant-tabs-tab {
+    @apply h-[45px] rounded-3 border-none bg-white px-15 #{!important};
+
+    &-active {
+      @apply bg-primary #{!important};
+
+      .ant-tabs-tab-btn {
+        @apply text-white #{!important};
+      }
+    }
+
+    .ant-tabs-tab-btn {
+      @apply text-base font-normal #{!important};
+    }
+  }
+
+  .ant-tabs-ink-bar {
+    @apply hidden;
+  }
+}

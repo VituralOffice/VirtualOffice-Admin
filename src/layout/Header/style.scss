@@ -1,0 +1,13 @@
+.menu-user {
+  .ant-dropdown-menu {
+    @apply w-75 rounded-3 #{!important};
+
+    &-item {
+      @apply mx-4 h-13 rounded-0 border-b border-solid border-white1 px-0 hover:bg-unset #{!important};
+
+      &:last-child {
+        @apply border-b-0 #{!important};
+      }
+    }
+  }
+}

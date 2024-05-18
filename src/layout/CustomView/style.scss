@@ -1,0 +1,6 @@
+.custom-view {
+  max-height: calc(100vh - 4.375rem);
+  .custom-btn {
+    @apply flex h-12 items-center justify-center rounded-2 border-none text-white #{!important};
+  }
+}
