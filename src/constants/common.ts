@@ -5,6 +5,7 @@ export const TITLE = {
   PLAN: 'Plan',
   SUBSCRIPTION: 'Subscription',
   ROOM: 'Room',
+  MAP: 'Map',
   ACCOUNT: 'User',
   ADMINISTRATION: 'Administration',
   PAYMENT: 'Payment',
@@ -12,6 +13,7 @@ export const TITLE = {
 
 export const ROUTE_PATH = {
   LOGIN: '/login',
+  MAP: '/map',
   DASHBOARD: '/dashboard',
   ROOM: '/rooms',
   EXAM: '/exam',

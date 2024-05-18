@@ -27,7 +27,6 @@ const CustomView: FC<Props> = ({
   title,
   paddingBottom = 24,
   searchPlaceholder = 'Search',
-  suggestion = [],
   filter,
   showCreateButton = true,
   textCreateButton = 'Create',
