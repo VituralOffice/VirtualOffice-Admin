@@ -32,9 +32,9 @@ const Sider: FC = () => {
     () => [
       {
         key: '1',
-        label: TITLE.DASHBOARD,
+        label: TITLE.MAP,
         icon: <DashboardIcon />,
-        route: ROUTE_PATH.DASHBOARD,
+        route: ROUTE_PATH.MAP,
       },
       {
         key: '2',

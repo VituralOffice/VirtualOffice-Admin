@@ -1,15 +1,12 @@
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 import Cookies from 'js-cookie';
 import { message as $message } from 'antd';
-
-import useAuthStore from '@/stores/auth.store';
-
 import { COOKIE_KEYS } from '@/constants/common';
 import { API_URL } from './constant';
 
 const axiosInstance = axios.create({
   timeout: 300000,
-  baseURL: `${API_URL}/v1`,
+  baseURL: API_URL,
 });
 
 let isRefreshingToken: boolean = false;
@@ -48,21 +45,18 @@ axiosInstance.interceptors.response.use(
       !originalRequest._retry
     ) {
       if (!isRefreshingToken) {
-        originalRequest._retry = true;
-        isRefreshingToken = true;
-
-        const data = await useAuthStore.getState().refreshToken();
-
-        if (data?.access && data?.refresh) {
-          const accessToken = data.access.token;
-          originalRequest.headers['Authorization'] = 'Bearer ' + accessToken;
-          isRefreshingToken = false;
-          requestQueue.forEach((callback) => callback(accessToken));
-          requestQueue = [];
-          return axiosInstance.request(originalRequest);
-        }
-
-        isRefreshingToken = false;
+        // originalRequest._retry = true;
+        // isRefreshingToken = true;
+        // const data = await useAuthStore.getState().refreshToken();
+        // if (data?.access && data?.refresh) {
+        //   const accessToken = data.access.token;
+        //   originalRequest.headers['Authorization'] = 'Bearer ' + accessToken;
+        //   isRefreshingToken = false;
+        //   requestQueue.forEach((callback) => callback(accessToken));
+        //   requestQueue = [];
+        //   return axiosInstance.request(originalRequest);
+        // }
+        // isRefreshingToken = false;
       } else {
         return new Promise((resolve) => {
           requestQueue.push((newAccessToken) => {
@@ -89,7 +83,7 @@ export type Response<T = any> = {
   status: number;
   message: string;
   data: {
-    status: number;
+    code: string;
     message: string;
     result: T;
   };

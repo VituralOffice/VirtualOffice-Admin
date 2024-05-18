@@ -7,6 +7,7 @@ import {
   apiLogin,
   apiLogout,
   apiRefreshToken,
+  apiVerify,
 } from '@/api/user.api';
 import useGlobalStore from './global.store';
 
@@ -30,9 +31,8 @@ type TAuthState = {
   role: string | null;
   reset: () => void;
   login: (params: TLoginParams) => void;
+  verify: (params: TLoginParams) => void;
   logout: () => void;
-  refreshToken: () => Promise<TTokenResult | null>;
-  setRole: (role: ROLE) => void;
 };
 
 const checkIsAuthenticated = () => {
@@ -46,8 +46,8 @@ const checkIsAuthenticated = () => {
 };
 
 export const setTokens = ({ access, refresh }: TTokenResult) => {
-  Cookies.set(ACCESS_TOKEN, access.token);
-  Cookies.set(REFRESH_TOKEN, refresh.token);
+  Cookies.set(ACCESS_TOKEN, access);
+  Cookies.set(REFRESH_TOKEN, refresh);
 };
 
 const removeTokens = () => {
@@ -76,25 +76,29 @@ const useAuthStore = create<TAuthState>((set, get) => {
       set({ isProcessing: true });
       const res = await apiLogin(params);
       if (res?.status === HTTP_STATUS_CODE.OK) {
-        const { data } = res;
-        const {
-          tokens: { access, refresh },
-          user,
-        } = data.result;
-        console.log({ user });
-        if (['admin'].includes(user.role)) {
-          setTokens({ access, refresh });
-          setLS(USER, user);
-          set({
-            user,
-            role: user.role,
-            isAuthenticated: true,
-            isProcessing: false,
-          });
-          return;
-        }
       }
-      set({ isAuthenticated: false, isProcessing: false });
+      set({ isProcessing: false });
+    },
+    verify: async (params: TLoginParams) => {
+      set({ isProcessing: true });
+      const res = await apiVerify(params);
+      if (res?.status === HTTP_STATUS_CODE.OK) {
+        const { user, accessToken, refreshToken } = res.data.result;
+        if (user.role != 'admin') {
+          throw new Error(`Forbidden`);
+        }
+        setTokens({
+          access: accessToken,
+          refresh: refreshToken,
+        });
+        set({
+          isAuthenticated: true,
+          user: user,
+          role: user.role,
+        });
+        setLS(USER, user);
+      }
+      set({ isProcessing: false });
     },
     logout: async () => {
       const { setLoading } = useGlobalStore.getState();

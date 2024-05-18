@@ -4,7 +4,8 @@ import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 import { ROUTE_PATH, TITLE } from '@/constants/common';
 import Login from '@/pages/Login';
 import PrivateRoute from './privateRoute';
-import UserManagement from '@/pages/UserManagement';
+import MapManagement from '@/pages/Map';
+import RoomManagement from '@/pages/Room';
 
 const LayoutPage = lazy(() => import('@/layout/index'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
@@ -34,13 +35,18 @@ const routeList: () => RouteObject[] = () => {
           ),
         },
         {
-          path: ROUTE_PATH.USER,
+          path: ROUTE_PATH.MAP,
+          element: (
+            <PrivateRoute auth title={TITLE.MAP} element={<MapManagement />} />
+          ),
+        },
+        {
+          path: ROUTE_PATH.ROOM,
           element: (
             <PrivateRoute
               auth
-              hasPermission={true}
-              title={TITLE.USER}
-              element={<UserManagement />}
+              title={TITLE.ROOM}
+              element={<RoomManagement />}
             />
           ),
         },

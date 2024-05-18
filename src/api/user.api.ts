@@ -3,7 +3,7 @@ import { Response, request } from './request';
 // type params
 export type TLoginParams = {
   email: string;
-  password: string;
+  otp?: string;
 };
 type TRefreshParams = {
   token: string;
@@ -20,15 +20,19 @@ export type TTokenPair = {
 };
 // type result
 export type TTokenResult = {
-  access: TTokenPair;
-  refresh: TTokenPair;
+  access: string;
+  refresh: string;
 };
 
 export type TLoginResult = {
   user: IUser;
   tokens: TTokenResult;
 };
-
+export type TVerifyResult = {
+  user: IUser;
+  accessToken: string;
+  refreshToken: string;
+};
 type QueryUserResult = {
   data: IUser[];
   page: number;
@@ -36,7 +40,9 @@ type QueryUserResult = {
   limit: number;
 };
 export const apiLogin = (params: TLoginParams) =>
-  request<TLoginResult>('post', '/auth/login', params);
+  request<TLoginResult>('post', '/v1/auth/login', params);
+export const apiVerify = (params: TLoginParams) =>
+  request<TVerifyResult>('post', '/v1/auth/verify', params);
 export const apiLogout = () => request<Response>('post', '/auth/logout');
 export const apiRefreshToken = (params: TRefreshParams) =>
   request<TTokenResult>('post', '/auth/refresh', params);
