@@ -1,62 +1,38 @@
 import { create } from 'zustand';
-
-import { apiCreateUser, apiListUser, apiUpdateUser } from '@/api/user.api';
-
-import { HTTP_STATUS_CODE, PAGE_LIMIT } from '@/constants/common';
-import { QueryUserParams } from '@/api/user.api';
+import { HTTP_STATUS_CODE } from '@/constants/common';
 import { IUser } from '@/interfaces/user';
-import { Response } from '@/api/request';
-type TUserState = {
+import { apiListUser } from '@/api/user.api';
+import { QueryParam } from '@/interfaces/common';
+interface UserState {
   loading: boolean;
   isProcessing: boolean;
-  params: QueryUserParams;
+  param: QueryParam;
   total: number;
   listUser: IUser[];
-  setParams: (params: QueryUserParams) => void;
-  resetParams: () => void;
   getListUser: () => void;
-  updateUser: (userId: number, body: Partial<IUser>) => Promise<Response<any>>;
-  createUser: (data: Partial<IUser>) => Promise<Response<any>>;
-};
+  setParam: (p: QueryParam) => void;
+}
 
-const initialParams: QueryUserParams = { page: 1, limit: PAGE_LIMIT };
-
-const useUserStore = create<TUserState>((set, get) => ({
+const useUserStore = create<UserState>((set, get) => ({
   loading: false,
   isProcessing: false,
-  params: initialParams,
+  param: { page: 1, q: '', role: 'user' },
   total: 0,
   listUser: [],
-  listAdmin: [],
-  setParams: (p: QueryUserParams) => {
-    const currentParams = get().params;
-    set({ params: { ...currentParams, ...p } });
-  },
-  resetParams: () => set({ params: initialParams }),
   getListUser: async () => {
     set({ loading: true });
-    const params = get().params;
-    const res = await apiListUser(params);
+    const res = await apiListUser(get().param);
     if (res.status === HTTP_STATUS_CODE.OK) {
-      const { data } = res;
+      const { result } = res.data;
       set({
-        listUser: data.result.data,
-        total: data.result.total,
+        listUser: result.data,
+        total: result.total,
       });
     }
     set({ loading: false });
   },
-  async updateUser(userId: number, body: Partial<IUser>) {
-    set({ loading: true });
-    const res = await apiUpdateUser(userId, body);
-    set({ loading: false });
-    return res;
-  },
-  async createUser(data: Partial<IUser>) {
-    set({ loading: true });
-    const res = await apiCreateUser(data);
-    set({ loading: false });
-    return res;
+  setParam: (p: QueryParam) => {
+    set({ param: { ...get().param, ...p } });
   },
 }));
 

@@ -47,7 +47,7 @@ export const apiLogout = () => request<Response>('post', '/auth/logout');
 export const apiRefreshToken = (params: TRefreshParams) =>
   request<TTokenResult>('post', '/auth/refresh', params);
 export const apiListUser = (params: QueryUserParams) =>
-  request<QueryUserResult>('get', '/users', params);
+  request<QueryUserResult>('get', '/v1/admin/users', params);
 export const apiUpdateUser = (id: number, body: Partial<IUser>) =>
   request('patch', `/users/${id}`, body);
 export const apiCreateUser = (data: Partial<IUser>) =>

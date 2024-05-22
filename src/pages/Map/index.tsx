@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { TableColumnsType } from 'antd';
+import { Checkbox, TableColumnsType } from 'antd';
 
 import { PAGE_LIMIT, TITLE } from '@/constants/common';
 import CustomView from '@/layout/CustomView';
@@ -10,7 +10,7 @@ import MenuAction from '@/components/MenuAction';
 import { convertDate } from '@/utils/common';
 import useMapStore from '@/stores/map.store';
 import { IMap } from '@/interfaces/map';
-
+import MapModal from './Modal';
 const MapManagement: FC = () => {
   const { loading, isProcessing, listMap, total, getListMap } = useMapStore(
     useShallow((state) => ({
@@ -22,8 +22,8 @@ const MapManagement: FC = () => {
     })),
   );
   const [currentPage, setCurrentPage] = useState<number>(1);
-  //const [showModal, setShowModal] = useState<boolean>(false);
-  //const [selectedMap, setSelectedMap] = useState<IMap>();
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [selectedMap, setSelectedMap] = useState<IMap>();
   //const [keyword, setKeyword] = useState<string>('');
   //const [suggestion, setSuggestion] = useState<DefaultOptionType[]>([]);
 
@@ -36,20 +36,25 @@ const MapManagement: FC = () => {
     setCurrentPage(1);
   }, []);
 
-  //   const handleSuccess = () => {
-  //     setShowModal(false);
-  //     setSelectedMap(undefined);
-  //     getListMap();
-  //   };
+  const handleSuccess = () => {
+    setShowModal(false);
+    setSelectedMap(undefined);
+    getListMap();
+  };
+  const handleCreate = () => {
+    setShowModal(true);
+    setSelectedMap(undefined);
+  };
 
-  //   const handleCloseModal = () => {
-  //     setShowModal(false);
-  //     setSelectedMap(undefined);
-  //   };
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedMap(undefined);
+  };
 
-  const handleClickEdit = () => {
-    // setSelectedMap(record);
-    //setShowModal(true);
+  const handleClickEdit = (map: IMap) => {
+    console.log({ handleClickEdit: map });
+    setSelectedMap(map);
+    setShowModal(true);
   };
 
   useEffect(() => {
@@ -80,6 +85,28 @@ const MapManagement: FC = () => {
         width: '10%',
       },
       {
+        title: 'Total meeting',
+        key: 'totalMeeting',
+        dataIndex: 'totalMeeting',
+        align: 'center',
+        width: '10%',
+      },
+      {
+        title: 'Total chair',
+        key: 'totalChair',
+        dataIndex: 'totalChair',
+        align: 'center',
+        width: '10%',
+      },
+      {
+        title: 'Active',
+        key: 'active',
+        dataIndex: 'active',
+        align: 'center',
+        width: '10%',
+        render: (_, r) => <Checkbox checked={r.active}></Checkbox>,
+      },
+      {
         title: 'CreatedAt',
         key: 'createdAt',
         dataIndex: 'createdAt',
@@ -96,7 +123,7 @@ const MapManagement: FC = () => {
           <MenuAction
             item={r}
             txtActionChangeStatus={'Inactive'}
-            onEdit={() => handleClickEdit()}
+            onEdit={() => handleClickEdit(r)}
             showDelete={false}
           />
         ),
@@ -111,23 +138,31 @@ const MapManagement: FC = () => {
         searchPlaceholder='Search'
         onSearch={handleSearch}
         textCreateButton='Create map'
+        onCreate={handleCreate}
       >
         <CustomTable
           loading={loading || isProcessing}
           dataSource={listMap}
           columns={columns}
-          rowKey={(r) => r.id}
+          rowKey={(r) => r._id}
           pagination={{
             total,
             current: currentPage,
             pageSize: PAGE_LIMIT,
             onChange: handleChangePage,
           }}
-          onRow={() => ({
-            // onClick: () => handleClickEdit(record),
+          onRow={(record) => ({
+            onClick: () => handleClickEdit(record),
           })}
         />
       </CustomView>
+      <MapModal
+        open={showModal}
+        isEditing={!!selectedMap}
+        mapData={selectedMap}
+        onCancel={handleCloseModal}
+        onSuccess={handleSuccess}
+      ></MapModal>
     </>
   );
 };

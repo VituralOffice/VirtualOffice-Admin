@@ -7,4 +7,5 @@ export interface QueryParam {
   page: number;
   limit?: number;
   q?: string;
+  role?: string;
 }
