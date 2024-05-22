@@ -6,6 +6,7 @@ import Login from '@/pages/Login';
 import PrivateRoute from './privateRoute';
 import MapManagement from '@/pages/Map';
 import RoomManagement from '@/pages/Room';
+import UserManagement from '@/pages/User';
 
 const LayoutPage = lazy(() => import('@/layout/index'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
@@ -47,6 +48,16 @@ const routeList: () => RouteObject[] = () => {
               auth
               title={TITLE.ROOM}
               element={<RoomManagement />}
+            />
+          ),
+        },
+        {
+          path: ROUTE_PATH.USER,
+          element: (
+            <PrivateRoute
+              auth
+              title={TITLE.USER}
+              element={<UserManagement />}
             />
           ),
         },
