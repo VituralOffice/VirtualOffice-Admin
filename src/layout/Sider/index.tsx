@@ -46,7 +46,7 @@ const Sider: FC = () => {
         key: '3',
         label: TITLE.PLAN,
         icon: <DashboardIcon />,
-        route: ROUTE_PATH.ROOM,
+        route: ROUTE_PATH.PLAN,
       },
       {
         key: '4',
