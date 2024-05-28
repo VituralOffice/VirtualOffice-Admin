@@ -13,12 +13,11 @@ export const TITLE = {
 
 export const ROUTE_PATH = {
   LOGIN: '/login',
+  PLAN: '/plan',
   MAP: '/map',
   DASHBOARD: '/dashboard',
   ROOM: '/rooms',
-  EXAM: '/exam',
-  CREATE_EXAM: '/exam_create',
-  INFORMATION: '/information',
+  SUBSCRIPTION: '/subscription',
   PROFILE: '/profile',
   ACCOUNT: '/account',
   ADMINISTRATION: '/administration',

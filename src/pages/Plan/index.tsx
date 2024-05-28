@@ -1,31 +1,31 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { Checkbox, TableColumnsType } from 'antd';
+import { TableColumnsType } from 'antd';
 
 import { PAGE_LIMIT, TITLE } from '@/constants/common';
 import CustomView from '@/layout/CustomView';
 import CustomTable from '@/components/CustomTable';
 import MenuAction from '@/components/MenuAction';
 //import ModalUser from './ModalUser';
-import useRoomStore from '@/stores/room.store';
-import { IRoom } from '@/interfaces/room';
+import usePlanStore from '@/stores/plan.store';
+import { IPlan } from '@/interfaces/plan';
 import { convertDate } from '@/utils/common';
 
-const RoomManagement: FC = () => {
-  const { loading, isProcessing, listRoom, total, getListRoom } = useRoomStore(
+const PlanManagement: FC = () => {
+  const { loading, isProcessing, listPlan, total, getListPlan } = usePlanStore(
     useShallow((state) => ({
       loading: state.loading,
       isProcessing: state.isProcessing,
       total: state.total,
-      listRoom: state.listRoom,
-      getListRoom: state.getListRoom,
+      listPlan: state.listPlan,
+      getListPlan: state.getListPlan,
       param: state.param,
       setParam: state.setParam,
     })),
   );
   const [currentPage, setCurrentPage] = useState<number>(1);
   //const [showModal, setShowModal] = useState<boolean>(false);
-  //const [selectedRoom, setSelectedRoom] = useState<IRoom>();
+  //const [selectedPlan, setSelectedPlan] = useState<IPlan>();
   //const [keyword, setKeyword] = useState<string>('');
   //const [suggestion, setSuggestion] = useState<DefaultOptionType[]>([]);
 
@@ -40,85 +40,102 @@ const RoomManagement: FC = () => {
 
   // const handleSuccess = () => {
   //   setShowModal(false);
-  //   setSelectedRoom(undefined);
-  //   getListRoom();
+  //   setSelectedPlan(undefined);
+  //   getListPlan();
   // };
 
   // const handleCloseModal = () => {
   //   setShowModal(false);
-  //   setSelectedRoom(undefined);
+  //   setSelectedPlan(undefined);
   // };
 
   const handleClickEdit = () => {
-    //setSelectedRoom(record);
+    //setSelectedPlan(record);
     //setShowModal(true);
   };
 
   useEffect(() => {
-    getListRoom();
+    getListPlan();
   }, []);
 
-  const columns: TableColumnsType<IRoom> = useMemo(() => {
+  const columns: TableColumnsType<IPlan> = useMemo(() => {
     return [
       {
         title: 'ID',
         key: '_id',
         dataIndex: '_id',
         align: 'center',
-        width: '14%',
+        width: 300,
       },
       {
         title: 'Name',
         key: 'name',
         dataIndex: 'name',
         align: 'center',
-        width: '10%',
+        width: 200,
       },
       {
-        title: 'Map',
-        key: 'map',
-        dataIndex: 'map',
+        title: 'Max room',
+        key: 'maxRoom',
+        dataIndex: 'maxRoom',
         align: 'center',
-        width: '10%',
-        render: (_, r) => <>{r.map?.name}</>,
+        width: 200,
       },
       {
-        title: 'Creator',
-        key: 'creator',
-        dataIndex: 'creator',
+        title: 'Room capacity',
+        key: 'maxRoomCapacity',
+        dataIndex: 'maxRoomCapacity',
         align: 'center',
-        width: '10%',
-        render: (_, r) => <>{r.creator.fullname}</>,
+        width: 200,
       },
       {
-        title: 'Member',
-        key: 'member',
-        dataIndex: 'member',
+        title: 'Monthly price',
+        key: 'monthlyPrice',
+        dataIndex: 'monthlyPrice',
         align: 'center',
-        width: '10%',
-        render: (_, r) => <>{r.members.length}</>,
+        width: 200,
       },
       {
-        title: 'Active',
-        key: 'active',
-        dataIndex: 'active',
+        title: 'Annually price',
+        key: 'annuallyPrice',
+        dataIndex: 'annuallyPrice',
         align: 'center',
-        width: '10%',
-        render: (_, r) => <Checkbox checked={r.active}></Checkbox>,
+        width: 200,
+      },
+      {
+        title: 'Features',
+        key: 'features',
+        dataIndex: 'features',
+        align: 'center',
+        width: 350,
+        render: (_, r) => (
+          <div
+            style={{
+              alignItems: 'flex-start',
+              justifyContent: 'left',
+              textAlign: 'left',
+              padding: '20px',
+            }}
+          >
+            {r.features.map((f) => (
+              <p>{f}</p>
+            ))}
+          </div>
+        ),
       },
       {
         title: 'CreatedAt',
         key: 'createdAt',
         dataIndex: 'createdAt',
         align: 'center',
-        width: '10%',
+        width: 200,
         render: (_, r) => <>{convertDate(r.createdAt)}</>,
       },
       {
         title: 'Action',
         key: 'action',
         align: 'center',
-        width: '5%',
+        width: 200,
         render: (_, r) => (
           <MenuAction
             item={r}
@@ -129,7 +146,7 @@ const RoomManagement: FC = () => {
         ),
       },
     ];
-  }, [getListRoom]);
+  }, [getListPlan]);
 
   return (
     <>
@@ -137,13 +154,13 @@ const RoomManagement: FC = () => {
         title={TITLE.ROOM}
         searchPlaceholder='Search'
         onSearch={handleSearch}
-        textCreateButton='Create Room'
+        textCreateButton='Create Plan'
       >
         <CustomTable
           loading={loading || isProcessing}
-          dataSource={listRoom}
+          dataSource={listPlan}
           columns={columns}
-          rowKey={(r) => r.id}
+          rowKey={(r) => r._id}
           pagination={{
             total,
             current: currentPage,
@@ -159,4 +176,4 @@ const RoomManagement: FC = () => {
   );
 };
 
-export default RoomManagement;
+export default PlanManagement;

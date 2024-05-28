@@ -9,8 +9,9 @@ import { TITLE, ROUTE_PATH } from '@/constants/common';
 
 import Logo from '@/assets/icons/logo.svg?react';
 import DashboardIcon from '@/assets/icons/sider/ic-dashboard.svg?react';
+import MapIcon from '@/assets/icons/ic-map.svg?react';
+
 import AdminIcon from '@/assets/icons/ic-admin.svg?react';
-import BankIcon from '@/assets/icons/ic-bank.svg?react';
 import ManageUserIcon from '@/assets/icons/ic-manage-user.svg?react';
 
 import './style.scss';
@@ -33,7 +34,7 @@ const Sider: FC = () => {
       {
         key: '1',
         label: TITLE.MAP,
-        icon: <DashboardIcon />,
+        icon: <MapIcon height={20} style={{ color: 'white' }} />,
         route: ROUTE_PATH.MAP,
       },
       {
@@ -46,20 +47,13 @@ const Sider: FC = () => {
         key: '3',
         label: TITLE.PLAN,
         icon: <DashboardIcon />,
-        route: ROUTE_PATH.ROOM,
+        route: ROUTE_PATH.PLAN,
       },
       {
         key: '4',
         label: TITLE.SUBSCRIPTION,
         icon: <DashboardIcon />,
-        route: ROUTE_PATH.ROOM,
-      },
-      {
-        key: '5',
-        label: TITLE.PAYMENT,
-        icon: <BankIcon />,
-        route: ROUTE_PATH.PAYMENT,
-        disabled: false,
+        route: ROUTE_PATH.SUBSCRIPTION,
       },
       {
         key: '6',

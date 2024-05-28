@@ -7,6 +7,7 @@ export interface IRoom {
   creator: IUser;
   map: IMap;
   members: IUser[];
+  active: boolean;
   private: boolean;
   createdAt: string;
 }
