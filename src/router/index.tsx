@@ -8,6 +8,7 @@ import MapManagement from '@/pages/Map';
 import RoomManagement from '@/pages/Room';
 import UserManagement from '@/pages/User';
 import PlanManagement from '@/pages/Plan';
+import SubscriptionManagement from '@/pages/Subscription';
 
 const LayoutPage = lazy(() => import('@/layout/index'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
@@ -69,6 +70,16 @@ const routeList: () => RouteObject[] = () => {
               auth
               title={TITLE.PLAN}
               element={<PlanManagement />}
+            />
+          ),
+        },
+        {
+          path: ROUTE_PATH.SUBSCRIPTION,
+          element: (
+            <PrivateRoute
+              auth
+              title={TITLE.SUBSCRIPTION}
+              element={<SubscriptionManagement />}
             />
           ),
         },

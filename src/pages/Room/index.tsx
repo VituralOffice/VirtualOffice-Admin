@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { TableColumnsType } from 'antd';
+import { Checkbox, TableColumnsType } from 'antd';
 
 import { PAGE_LIMIT, TITLE } from '@/constants/common';
 import CustomView from '@/layout/CustomView';
@@ -97,6 +97,14 @@ const RoomManagement: FC = () => {
         align: 'center',
         width: '10%',
         render: (_, r) => <>{r.members.length}</>,
+      },
+      {
+        title: 'Active',
+        key: 'active',
+        dataIndex: 'active',
+        align: 'center',
+        width: '10%',
+        render: (_, r) => <Checkbox checked={r.active}></Checkbox>,
       },
       {
         title: 'CreatedAt',
