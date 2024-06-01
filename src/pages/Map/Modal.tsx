@@ -90,7 +90,8 @@ const ModalMap = ({
   };
 
   const onFinish = (values: Exclude<IMap, '_id'>) => {
-    const { name, totalChair, totalMeeting, capacity } = values;
+    const { name, totalChair, totalMeeting, capacity, totalWhiteboard, style } =
+      values;
     if (isEditing) {
       const params = {} as Partial<IMap>;
       if (mapData?.name !== name) {
@@ -104,6 +105,12 @@ const ModalMap = ({
       }
       if (mapData?.capacity !== capacity) {
         params.capacity = capacity;
+      }
+      if (mapData?.totalWhiteboard !== totalWhiteboard) {
+        params.totalWhiteboard = totalWhiteboard;
+      }
+      if (mapData?.style !== style) {
+        params.style = style;
       }
       if (fileUpload) {
         params.json = fileUpload;
@@ -134,7 +141,16 @@ const ModalMap = ({
   useEffect(() => {
     if (open) {
       if (mapData) {
-        const { _id, capacity, name, totalChair, totalMeeting, json } = mapData;
+        const {
+          _id,
+          capacity,
+          name,
+          totalChair,
+          totalMeeting,
+          json,
+          totalWhiteboard,
+          style,
+        } = mapData;
         if (json)
           setFileList([
             {
@@ -149,6 +165,8 @@ const ModalMap = ({
           totalChair,
           totalMeeting,
           json,
+          totalWhiteboard,
+          style,
         });
       } else {
         form.setFieldsValue({
@@ -232,6 +250,24 @@ const ModalMap = ({
               label='Total chair'
               rules={[{ required: true }]}
             >
+              <Input placeholder='Total meeting...' />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={12}>
+          <Col span={24}>
+            <Form.Item
+              name='totalWhiteboard'
+              label='Total whiteboard'
+              rules={[{ required: true }]}
+            >
+              <Input placeholder='Total meeting...' />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={12}>
+          <Col span={24}>
+            <Form.Item name='style' label='Style' rules={[{ required: true }]}>
               <Input placeholder='Total meeting...' />
             </Form.Item>
           </Col>
