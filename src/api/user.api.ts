@@ -6,7 +6,7 @@ export type TLoginParams = {
   otp?: string;
 };
 type TRefreshParams = {
-  token: string;
+  refreshToken: string;
 };
 export type QueryUserParams = {
   page: number;
@@ -43,9 +43,9 @@ export const apiLogin = (params: TLoginParams) =>
   request<TLoginResult>('post', '/v1/auth/login', params);
 export const apiVerify = (params: TLoginParams) =>
   request<TVerifyResult>('post', '/v1/auth/verify', params);
-export const apiLogout = () => request<Response>('post', '/auth/logout');
+export const apiLogout = () => request<Response>('post', '/v1/auth/logout');
 export const apiRefreshToken = (params: TRefreshParams) =>
-  request<TTokenResult>('post', '/auth/refresh', params);
+  request<TTokenResult>('post', '/v1/auth/refresh', params);
 export const apiListUser = (params: QueryUserParams) =>
   request<QueryUserResult>('get', '/v1/admin/users', params);
 export const apiUpdateUser = (id: number, body: Partial<IUser>) =>

@@ -1,21 +1,19 @@
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
-import Cookies from 'js-cookie';
 import { message as $message } from 'antd';
-import { COOKIE_KEYS } from '@/constants/common';
 import { API_URL } from './constant';
+import useAuthStore from '@/stores/auth.store';
 
 const axiosInstance = axios.create({
   timeout: 300000,
   baseURL: API_URL,
+  withCredentials: true,
 });
 
 let isRefreshingToken: boolean = false;
-let requestQueue: ((token: string) => void)[] = [];
-
+let requestQueue: (() => void)[] = [];
 axiosInstance.interceptors.request.use(
   (config) => {
     const headers = {
-      Authorization: `Bearer ${Cookies.get(COOKIE_KEYS.ACCESS_TOKEN) || ''}`,
       accept: 'application/json',
     };
     config.headers = Object.assign(config.headers || {}, headers);
@@ -41,28 +39,20 @@ axiosInstance.interceptors.response.use(
 
     if (
       status === 401 &&
-      error?.response?.data?.message === 'Token expired' &&
+      error?.response?.data?.message === 'token expired' &&
       !originalRequest._retry
     ) {
       if (!isRefreshingToken) {
-        // originalRequest._retry = true;
-        // isRefreshingToken = true;
-        // const data = await useAuthStore.getState().refreshToken();
-        // if (data?.access && data?.refresh) {
-        //   const accessToken = data.access.token;
-        //   originalRequest.headers['Authorization'] = 'Bearer ' + accessToken;
-        //   isRefreshingToken = false;
-        //   requestQueue.forEach((callback) => callback(accessToken));
-        //   requestQueue = [];
-        //   return axiosInstance.request(originalRequest);
-        // }
-        // isRefreshingToken = false;
+        originalRequest._retry = true;
+        isRefreshingToken = true;
+        await useAuthStore.getState().refreshToken();
+        isRefreshingToken = false;
+        requestQueue.forEach((callback) => callback());
+        requestQueue = [];
+        return axiosInstance.request(originalRequest);
       } else {
         return new Promise((resolve) => {
-          requestQueue.push((newAccessToken) => {
-            originalRequest.headers['Authorization'] =
-              'Bearer ' + newAccessToken;
-
+          requestQueue.push(() => {
             resolve(axiosInstance.request(originalRequest));
           });
         });
@@ -71,7 +61,6 @@ axiosInstance.interceptors.response.use(
     if (errorMessage) {
       $message.error(errorMessage);
     }
-
     return {
       status,
       message: errorMessage,

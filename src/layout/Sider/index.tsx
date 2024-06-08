@@ -11,7 +11,6 @@ import Logo from '@/assets/icons/logo.svg?react';
 import DashboardIcon from '@/assets/icons/sider/ic-dashboard.svg?react';
 import MapIcon from '@/assets/icons/ic-map.svg?react';
 
-import AdminIcon from '@/assets/icons/ic-admin.svg?react';
 import ManageUserIcon from '@/assets/icons/ic-manage-user.svg?react';
 
 import './style.scss';
@@ -66,13 +65,6 @@ const Sider: FC = () => {
         label: TITLE.USER,
         icon: <ManageUserIcon />,
         route: ROUTE_PATH.USER,
-        disabled: false,
-      },
-      {
-        key: '7',
-        label: TITLE.ADMINISTRATION,
-        icon: <AdminIcon />,
-        route: ROUTE_PATH.ADMINISTRATION,
         disabled: false,
       },
     ],

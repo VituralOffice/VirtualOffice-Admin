@@ -33,6 +33,7 @@ type TAuthState = {
   login: (params: TLoginParams) => void;
   verify: (params: TLoginParams) => void;
   logout: () => void;
+  refreshToken: () => Promise<void>;
 };
 
 const checkIsAuthenticated = () => {
@@ -108,24 +109,8 @@ const useAuthStore = create<TAuthState>((set, get) => {
       setLoading(false);
     },
     refreshToken: async () => {
-      const token = Cookies.get(REFRESH_TOKEN) || '';
-
-      if (token) {
-        const res = await apiRefreshToken({ token });
-
-        if (res?.status === HTTP_STATUS_CODE.OK) {
-          const { data } = res;
-          const { access, refresh } = data.result;
-
-          setTokens({ access, refresh });
-
-          return data;
-        }
-      }
-
-      get().reset();
-
-      return null;
+      const refreshToken = Cookies.get(REFRESH_TOKEN) || '';
+      if (refreshToken) await apiRefreshToken({ refreshToken });
     },
     setRole: (role: ROLE) => set({ role }),
   };
