@@ -32,6 +32,12 @@ const Sider: FC = () => {
   const items: TSiderItem[] = useMemo(
     () => [
       {
+        key: '0',
+        label: TITLE.DASHBOARD,
+        icon: <DashboardIcon />,
+        route: ROUTE_PATH.DASHBOARD,
+      },
+      {
         key: '1',
         label: TITLE.MAP,
         icon: <MapIcon height={20} style={{ color: 'white' }} />,
