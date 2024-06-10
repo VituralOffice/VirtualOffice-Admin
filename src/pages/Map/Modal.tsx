@@ -150,6 +150,7 @@ const ModalMap = ({
           json,
           totalWhiteboard,
           style,
+          icon,
         } = mapData;
         if (json)
           setFileList([
@@ -167,6 +168,7 @@ const ModalMap = ({
           json,
           totalWhiteboard,
           style,
+          icon,
         });
       } else {
         form.setFieldsValue({
@@ -175,6 +177,7 @@ const ModalMap = ({
           totalChair: '',
           totalMeeting: '',
           json: '',
+          icon: '',
         });
       }
     } else {
@@ -250,7 +253,7 @@ const ModalMap = ({
               label='Total chair'
               rules={[{ required: true }]}
             >
-              <Input placeholder='Total meeting...' />
+              <Input placeholder='Total chair...' />
             </Form.Item>
           </Col>
         </Row>
@@ -261,14 +264,21 @@ const ModalMap = ({
               label='Total whiteboard'
               rules={[{ required: true }]}
             >
-              <Input placeholder='Total meeting...' />
+              <Input placeholder='Total whiteboard...' />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12}>
           <Col span={24}>
             <Form.Item name='style' label='Style' rules={[{ required: true }]}>
-              <Input placeholder='Total meeting...' />
+              <Input placeholder='Style...' />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={12}>
+          <Col span={24}>
+            <Form.Item name='icon' label='Icon' rules={[{ required: true }]}>
+              <Input placeholder='Icon...' />
             </Form.Item>
           </Col>
         </Row>

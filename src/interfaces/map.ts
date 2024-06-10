@@ -7,6 +7,7 @@ export interface IMap {
   totalWhiteboard: number;
   default: boolean;
   style: string;
+  icon: string;
   json: string;
   createdAt: string;
   active: boolean;
