@@ -113,6 +113,13 @@ const MapManagement: FC = () => {
         width: 200,
       },
       {
+        title: 'Icon',
+        key: 'icon',
+        dataIndex: 'icon',
+        align: 'center',
+        width: 200,
+      },
+      {
         title: 'Default',
         key: 'default',
         dataIndex: 'default',
