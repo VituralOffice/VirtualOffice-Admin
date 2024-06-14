@@ -26,13 +26,7 @@ type Props = {
 //     reader.onload = () => resolve(reader.result as string);
 //     reader.onerror = (error) => reject(error);
 //   });
-const ModalMap = ({
-  open,
-  isEditing,
-  mapData,
-  onSuccess = () => {},
-  onCancel,
-}: Props) => {
+const ModalMap = ({ open, isEditing, mapData, onSuccess = () => {}, onCancel }: Props) => {
   const [form] = Form.useForm();
   const values = Form.useWatch([], form);
   const [fileList, setFileList] = useState<UploadFile[]>();
@@ -47,9 +41,7 @@ const ModalMap = ({
       }
     } catch (error) {}
   };
-  const handleChange: UploadProps['onChange'] = async ({
-    fileList: newFileList,
-  }) => {
+  const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
     console.log({ newFileList });
     if (newFileList.length > 0) {
       newFileList = newFileList.reverse();
@@ -59,7 +51,7 @@ const ModalMap = ({
   };
 
   const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type='button'>
+    <button style={{ border: 0, background: 'none' }} type="button">
       <PlusOutlined />
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
@@ -90,8 +82,8 @@ const ModalMap = ({
   };
 
   const onFinish = (values: Exclude<IMap, '_id'>) => {
-    const { name, totalChair, totalMeeting, capacity, totalWhiteboard, style } =
-      values;
+    console.log({ values, mapData });
+    const { name, totalChair, totalMeeting, capacity, totalWhiteboard, style } = values;
     if (isEditing) {
       const params = {} as Partial<IMap>;
       if (mapData?.name !== name) {
@@ -100,7 +92,7 @@ const ModalMap = ({
       if (mapData?.totalChair !== totalChair) {
         params.totalChair = totalChair;
       }
-      if (mapData?.totalMeeting! == totalMeeting) {
+      if (mapData?.totalMeeting !== totalMeeting) {
         params.totalMeeting = totalMeeting;
       }
       if (mapData?.capacity !== capacity) {
@@ -141,17 +133,7 @@ const ModalMap = ({
   useEffect(() => {
     if (open) {
       if (mapData) {
-        const {
-          _id,
-          capacity,
-          name,
-          totalChair,
-          totalMeeting,
-          json,
-          totalWhiteboard,
-          style,
-          icon,
-        } = mapData;
+        const { _id, capacity, name, totalChair, totalMeeting, json, totalWhiteboard, style, icon } = mapData;
         if (json)
           setFileList([
             {
@@ -176,6 +158,7 @@ const ModalMap = ({
           name: '',
           totalChair: '',
           totalMeeting: '',
+          totalWhiteboard: '',
           json: '',
           icon: '',
         });
@@ -188,112 +171,82 @@ const ModalMap = ({
     <Modal
       centered
       open={open}
-      className='my-modal'
+      className="my-modal"
       title={isEditing ? 'Edit map' : 'Create map'}
       onCancel={onCancel}
       closeIcon={<CloseIcon />}
       footer={[
-        <Button
-          key='submit'
-          loading={isProcessing}
-          onClick={() => form.submit()}
-          disabled={!submittable}
-        >
+        <Button key="submit" loading={isProcessing} onClick={() => form.submit()} disabled={!submittable}>
           {isEditing ? 'Save' : 'Create'}
         </Button>,
       ]}
     >
-      <Form
-        form={form}
-        layout='vertical'
-        name='customer-form'
-        onFinish={onFinish}
-      >
+      <Form form={form} layout="vertical" name="customer-form" onFinish={onFinish}>
         <Row gutter={12}>
           <Col span={24}>
             <Form.Item
-              name='name'
-              label='Name'
+              name="name"
+              label="Name"
               rules={[
                 {
                   required: true,
                 },
               ]}
             >
-              <Input placeholder='Enter here...' />
+              <Input placeholder="Enter here..." />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12}>
           <Col span={24}>
-            <Form.Item
-              name='capacity'
-              label='Capacity'
-              rules={[{ required: true }]}
-            >
-              <Input placeholder='Capacity...' />
+            <Form.Item name="capacity" label="Capacity" rules={[{ required: true }]}>
+              <Input placeholder="Capacity..." />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12}>
           <Col span={24}>
-            <Form.Item
-              name='totalMeeting'
-              label='Total meeting'
-              rules={[{ required: true }]}
-            >
-              <Input placeholder='Total meeting...' />
+            <Form.Item name="totalMeeting" label="Total meeting" rules={[{ required: true }]}>
+              <Input placeholder="Total meeting..." />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12}>
           <Col span={24}>
-            <Form.Item
-              name='totalChair'
-              label='Total chair'
-              rules={[{ required: true }]}
-            >
-              <Input placeholder='Total chair...' />
+            <Form.Item name="totalChair" label="Total chair" rules={[{ required: true }]}>
+              <Input placeholder="Total chair..." />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12}>
           <Col span={24}>
-            <Form.Item
-              name='totalWhiteboard'
-              label='Total whiteboard'
-              rules={[{ required: true }]}
-            >
-              <Input placeholder='Total whiteboard...' />
+            <Form.Item name="totalWhiteboard" label="Total whiteboard" rules={[{ required: true }]}>
+              <Input placeholder="Total whiteboard..." />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12}>
           <Col span={24}>
-            <Form.Item name='style' label='Style' rules={[{ required: true }]}>
-              <Input placeholder='Style...' />
+            <Form.Item name="style" label="Style" rules={[{ required: true }]}>
+              <Input placeholder="Style..." />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12}>
           <Col span={24}>
-            <Form.Item name='icon' label='Icon' rules={[{ required: true }]}>
-              <Input placeholder='Icon...' />
+            <Form.Item name="icon" label="Icon" rules={[{ required: true }]}>
+              <Input placeholder="Icon..." />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12}>
           <Col span={24}>
-            <Form.Item
-              name='json'
-              label='Json file'
-              rules={[{ required: true }]}
-            >
+            <Form.Item name="json" label="Json file" rules={[{ required: true }]}>
               <Upload
                 fileList={fileList}
                 onChange={handleChange}
-                className='m-auto items-center text-white'
-                accept='application/JSON'
+                className="m-auto items-center text-white"
+                accept="application/JSON"
               >
                 {uploadButton}
               </Upload>
