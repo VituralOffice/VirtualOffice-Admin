@@ -12,13 +12,7 @@ import { ISubscription } from '@/interfaces/subscription';
 import { convertDate } from '@/utils/common';
 
 const SubscriptionManagement: FC = () => {
-  const {
-    loading,
-    isProcessing,
-    listSubscription,
-    total,
-    getListSubscription,
-  } = useSubscriptionStore(
+  const { loading, isProcessing, listSubscription, total, getListSubscription } = useSubscriptionStore(
     useShallow((state) => ({
       loading: state.loading,
       isProcessing: state.isProcessing,
@@ -146,12 +140,7 @@ const SubscriptionManagement: FC = () => {
         align: 'center',
         width: 200,
         render: (_, r) => (
-          <MenuAction
-            item={r}
-            txtActionChangeStatus={'Inactive'}
-            onEdit={() => handleClickEdit()}
-            showDelete={false}
-          />
+          <MenuAction item={r} txtActionChangeStatus={'Inactive'} onEdit={() => handleClickEdit()} showDelete={false} />
         ),
       },
     ];
@@ -161,9 +150,10 @@ const SubscriptionManagement: FC = () => {
     <>
       <CustomView
         title={TITLE.ROOM}
-        searchPlaceholder='Search'
+        searchPlaceholder="Search"
         onSearch={handleSearch}
-        textCreateButton='Create Subscription'
+        textCreateButton="Create Subscription"
+        showCreateButton={false}
       >
         <CustomTable
           loading={loading || isProcessing}

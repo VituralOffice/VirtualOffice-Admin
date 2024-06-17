@@ -120,12 +120,7 @@ const RoomManagement: FC = () => {
         align: 'center',
         width: '5%',
         render: (_, r) => (
-          <MenuAction
-            item={r}
-            txtActionChangeStatus={'Inactive'}
-            onEdit={() => handleClickEdit()}
-            showDelete={false}
-          />
+          <MenuAction item={r} txtActionChangeStatus={'Inactive'} onEdit={() => handleClickEdit()} showDelete={false} />
         ),
       },
     ];
@@ -135,9 +130,10 @@ const RoomManagement: FC = () => {
     <>
       <CustomView
         title={TITLE.ROOM}
-        searchPlaceholder='Search'
+        searchPlaceholder="Search"
         onSearch={handleSearch}
-        textCreateButton='Create Room'
+        textCreateButton="Create Room"
+        showCreateButton={false}
       >
         <CustomTable
           loading={loading || isProcessing}

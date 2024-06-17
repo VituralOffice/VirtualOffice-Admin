@@ -137,12 +137,7 @@ const PlanManagement: FC = () => {
         align: 'center',
         width: 200,
         render: (_, r) => (
-          <MenuAction
-            item={r}
-            txtActionChangeStatus={'Inactive'}
-            onEdit={() => handleClickEdit()}
-            showDelete={false}
-          />
+          <MenuAction item={r} txtActionChangeStatus={'Inactive'} onEdit={() => handleClickEdit()} showDelete={false} />
         ),
       },
     ];
@@ -151,10 +146,11 @@ const PlanManagement: FC = () => {
   return (
     <>
       <CustomView
-        title={TITLE.ROOM}
-        searchPlaceholder='Search'
+        title={TITLE.PLAN}
+        searchPlaceholder="Search"
         onSearch={handleSearch}
-        textCreateButton='Create Plan'
+        textCreateButton="Create Plan"
+        showCreateButton={false}
       >
         <CustomTable
           loading={loading || isProcessing}

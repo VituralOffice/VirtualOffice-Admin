@@ -95,12 +95,7 @@ const UserManagement: FC = () => {
         align: 'center',
         width: '5%',
         render: (_, r) => (
-          <MenuAction
-            item={r}
-            txtActionChangeStatus={'Inactive'}
-            onEdit={() => handleClickEdit()}
-            showDelete={false}
-          />
+          <MenuAction item={r} txtActionChangeStatus={'Inactive'} onEdit={() => handleClickEdit()} showDelete={false} />
         ),
       },
     ];
@@ -109,10 +104,11 @@ const UserManagement: FC = () => {
   return (
     <>
       <CustomView
-        title={TITLE.ROOM}
-        searchPlaceholder='Search'
+        title={TITLE.USER}
+        searchPlaceholder="Search"
         onSearch={handleSearch}
-        textCreateButton='Create User'
+        textCreateButton="Create User"
+        showCreateButton={false}
       >
         <CustomTable
           loading={loading || isProcessing}
