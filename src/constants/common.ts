@@ -26,8 +26,8 @@ export const ROUTE_PATH = {
 };
 
 export const COOKIE_KEYS = {
-  ACCESS_TOKEN: 'access_token',
-  REFRESH_TOKEN: 'refresh_token',
+  ACCESS_TOKEN: 'accessToken',
+  REFRESH_TOKEN: 'refreshToken',
   ACCESS_TOKEN_EXPIRED_TIME: 'access_token_expired_time',
   REFRESH_TOKEN_EXPIRED_TIME: 'refresh_token_expired_time',
 };
