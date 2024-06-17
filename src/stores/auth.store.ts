@@ -1,22 +1,10 @@
 import { create } from 'zustand';
 import Cookies from 'js-cookie';
 
-import {
-  TLoginParams,
-  TTokenResult,
-  apiLogin,
-  apiLogout,
-  apiRefreshToken,
-  apiVerify,
-} from '@/api/user.api';
+import { TLoginParams, TTokenResult, apiLogin, apiLogout, apiRefreshToken, apiVerify } from '@/api/user.api';
 import useGlobalStore from './global.store';
 
-import {
-  HTTP_STATUS_CODE,
-  COOKIE_KEYS,
-  LS_KEYS,
-  ROLE,
-} from '@/constants/common';
+import { HTTP_STATUS_CODE, COOKIE_KEYS, LS_KEYS, ROLE } from '@/constants/common';
 import { getLS, removeLS, setLS } from '@/utils/localStorage';
 import { IUser } from '@/interfaces/user';
 
@@ -65,7 +53,7 @@ const useAuthStore = create<TAuthState>((set, get) => {
     user: userData,
     role: roleName,
     reset: () => {
-      removeTokens();
+      localStorage.removeItem(REFRESH_TOKEN);
       removeLS(USER);
       set({
         isAuthenticated: false,
@@ -84,14 +72,11 @@ const useAuthStore = create<TAuthState>((set, get) => {
       set({ isProcessing: true });
       const res = await apiVerify(params);
       if (res?.status === HTTP_STATUS_CODE.OK) {
-        const { user, accessToken, refreshToken } = res.data.result;
+        const { user, refreshToken } = res.data.result;
         if (user.role != 'admin') {
           throw new Error(`Forbidden`);
         }
-        setTokens({
-          access: accessToken,
-          refresh: refreshToken,
-        });
+        localStorage.setItem(REFRESH_TOKEN, refreshToken);
         set({
           isAuthenticated: true,
           user: user,
@@ -109,7 +94,7 @@ const useAuthStore = create<TAuthState>((set, get) => {
       setLoading(false);
     },
     refreshToken: async () => {
-      const refreshToken = Cookies.get(REFRESH_TOKEN) || '';
+      const refreshToken = localStorage.getItem(REFRESH_TOKEN);
       if (refreshToken) await apiRefreshToken({ refreshToken });
     },
     setRole: (role: ROLE) => set({ role }),
