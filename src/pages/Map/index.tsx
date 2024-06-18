@@ -120,6 +120,14 @@ const MapManagement: FC = () => {
         width: 200,
       },
       {
+        title: 'Preview',
+        key: 'preview',
+        dataIndex: 'preview',
+        align: 'center',
+        width: 200,
+        render: (_: any, r: IMap) => <img src={r.preview} alt="Preview"></img>,
+      },
+      {
         title: 'Default',
         key: 'default',
         dataIndex: 'default',
@@ -164,9 +172,9 @@ const MapManagement: FC = () => {
     <>
       <CustomView
         title={TITLE.MAP}
-        searchPlaceholder='Search'
+        searchPlaceholder="Search"
         onSearch={handleSearch}
-        textCreateButton='Create map'
+        textCreateButton="Create map"
         onCreate={handleCreate}
       >
         <CustomTable
