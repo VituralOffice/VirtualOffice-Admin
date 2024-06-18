@@ -39,11 +39,6 @@ export const setTokens = ({ access, refresh }: TTokenResult) => {
   Cookies.set(REFRESH_TOKEN, refresh);
 };
 
-const removeTokens = () => {
-  Cookies.remove(ACCESS_TOKEN);
-  Cookies.remove(REFRESH_TOKEN);
-};
-
 const useAuthStore = create<TAuthState>((set, get) => {
   const userData = getLS(USER) || null;
   const roleName = 'admin'; //userData ? (userData as TUser).role.name : null;

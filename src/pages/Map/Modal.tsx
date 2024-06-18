@@ -30,26 +30,33 @@ const ModalMap = ({ open, isEditing, mapData, onSuccess = () => {}, onCancel }: 
   const [form] = Form.useForm();
   const values = Form.useWatch([], form);
   const [fileList, setFileList] = useState<UploadFile[]>();
+  const [imgList, setImgList] = useState<UploadFile[]>();
   const [fileUpload, setFileUpload] = useState('');
-  const handleUploadFile = async (file: File) => {
+  const [imgUpload, setImgUpload] = useState('');
+  const handleUploadFile = async (file: File, setState: (t: string) => void) => {
     try {
       const form = new FormData();
       form.append('file', file);
       const { data } = await request(`post`, '/v1/upload', form);
       if (data.result) {
-        setFileUpload(data.result.path);
+        setState(data.result.path);
       }
     } catch (error) {}
   };
   const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
-    console.log({ newFileList });
     if (newFileList.length > 0) {
       newFileList = newFileList.reverse();
-      await handleUploadFile(newFileList[0].originFileObj as File);
-      setFileList([newFileList[0]]);
+      await handleUploadFile(newFileList[0].originFileObj as File, setFileUpload);
+      setFileList([{ ...newFileList[0], status: 'done' }]);
     } else setFileList([]);
   };
-
+  const handlePreviewImageChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
+    if (newFileList.length > 0) {
+      newFileList = newFileList.reverse();
+      await handleUploadFile(newFileList[0].originFileObj as File, setImgUpload);
+      setImgList([{ ...newFileList[0], status: 'done' }]);
+    } else setImgList([]);
+  };
   const uploadButton = (
     <button style={{ border: 0, background: 'none' }} type="button">
       <PlusOutlined />
@@ -82,7 +89,6 @@ const ModalMap = ({ open, isEditing, mapData, onSuccess = () => {}, onCancel }: 
   };
 
   const onFinish = (values: Exclude<IMap, '_id'>) => {
-    console.log({ values, mapData });
     const { name, totalChair, totalMeeting, capacity, totalWhiteboard, style } = values;
     if (isEditing) {
       const params = {} as Partial<IMap>;
@@ -107,6 +113,9 @@ const ModalMap = ({ open, isEditing, mapData, onSuccess = () => {}, onCancel }: 
       if (fileUpload) {
         params.json = fileUpload;
       }
+      if (imgUpload) {
+        params.preview = imgUpload;
+      }
       handleEdit(mapData?._id || '', {
         ...params,
       });
@@ -117,6 +126,10 @@ const ModalMap = ({ open, isEditing, mapData, onSuccess = () => {}, onCancel }: 
       } as Partial<IMap>;
       handleCreate(params);
     }
+    setFileList([]);
+    setImgList([]);
+    setFileUpload('');
+    setImgUpload('');
   };
 
   useEffect(() => {
@@ -124,7 +137,8 @@ const ModalMap = ({ open, isEditing, mapData, onSuccess = () => {}, onCancel }: 
       () => {
         setSubmittable(true);
       },
-      () => {
+      (err) => {
+        console.log(`Validate failed`, err);
         setSubmittable(false);
       },
     );
@@ -133,11 +147,18 @@ const ModalMap = ({ open, isEditing, mapData, onSuccess = () => {}, onCancel }: 
   useEffect(() => {
     if (open) {
       if (mapData) {
-        const { _id, capacity, name, totalChair, totalMeeting, json, totalWhiteboard, style, icon } = mapData;
+        const { _id, capacity, name, totalChair, totalMeeting, preview, json, totalWhiteboard, style, icon } = mapData;
         if (json)
           setFileList([
             {
               name: mapData.json.substring(mapData.json.length - 20),
+              uid: '1',
+            },
+          ]);
+        if (preview)
+          setImgList([
+            {
+              name: mapData.preview.substring(mapData.json.length - 20),
               uid: '1',
             },
           ]);
@@ -149,6 +170,7 @@ const ModalMap = ({ open, isEditing, mapData, onSuccess = () => {}, onCancel }: 
           totalMeeting,
           json,
           totalWhiteboard,
+          preview,
           style,
           icon,
         });
@@ -241,12 +263,29 @@ const ModalMap = ({ open, isEditing, mapData, onSuccess = () => {}, onCancel }: 
         </Row>
         <Row gutter={12}>
           <Col span={24}>
+            <Form.Item name="preview" label="Preview image" rules={[{ required: true }]}>
+              {imgList?.length && imgList.map((img) => <img src={img.preview}></img>)}
+              <Upload
+                fileList={imgList}
+                onChange={handlePreviewImageChange}
+                className="m-auto items-center text-white"
+                accept="image/*"
+                customRequest={() => {}}
+              >
+                {uploadButton}
+              </Upload>
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={12}>
+          <Col span={24}>
             <Form.Item name="json" label="Json file" rules={[{ required: true }]}>
               <Upload
                 fileList={fileList}
                 onChange={handleChange}
                 className="m-auto items-center text-white"
                 accept="application/JSON"
+                customRequest={() => {}}
               >
                 {uploadButton}
               </Upload>

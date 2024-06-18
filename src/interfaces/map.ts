@@ -6,6 +6,7 @@ export interface IMap {
   totalChair: number;
   totalWhiteboard: number;
   default: boolean;
+  preview: string;
   style: string;
   icon: string;
   json: string;
