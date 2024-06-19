@@ -1,7 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 import { message as $message } from 'antd';
 import { API_URL } from './constant';
-import useAuthStore from '@/stores/auth.store';
+import { COOKIE_KEYS, LS_KEYS } from '@/constants/common';
+import Cookies from 'js-cookie';
 
 const axiosInstance = axios.create({
   timeout: 300000,
@@ -36,16 +37,21 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error?.config;
     const status = error?.response?.status;
     const errorMessage = error?.response?.data?.error || 'Error';
-
-    if (
-      status === 401 &&
-      error?.response?.data?.message === 'token expired' &&
-      !originalRequest._retry
-    ) {
+    if (status === 401 && error?.response?.data?.message === 'token expired' && !originalRequest._retry) {
       if (!isRefreshingToken) {
         originalRequest._retry = true;
         isRefreshingToken = true;
-        await useAuthStore.getState().refreshToken();
+        try {
+          const rt = localStorage.getItem(COOKIE_KEYS.REFRESH_TOKEN) || '';
+          const { refreshToken } = await apiRefreshToken(rt);
+          localStorage.setItem(COOKIE_KEYS.REFRESH_TOKEN, refreshToken);
+        } catch (error) {
+          localStorage.removeItem(COOKIE_KEYS.REFRESH_TOKEN);
+          localStorage.removeItem(LS_KEYS.USER);
+          Cookies.remove(COOKIE_KEYS.ACCESS_TOKEN);
+          Cookies.remove(COOKIE_KEYS.REFRESH_TOKEN);
+          window.location.href = '/';
+        }
         isRefreshingToken = false;
         requestQueue.forEach((callback) => callback());
         requestQueue = [];
@@ -115,4 +121,12 @@ export const request = <T = any>(
       ...config,
     });
   }
+};
+
+const apiRefreshToken = async (token: string) => {
+  const { data } = await axiosInstance.post('/v1/auth/refresh', { refreshToken: token });
+  return {
+    accessToken: data.result.accessToken,
+    refreshToken: data.result.refreshToken,
+  };
 };
