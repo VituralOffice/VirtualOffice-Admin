@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import Cookies from 'js-cookie';
 
-import { TLoginParams, TTokenResult, apiLogin, apiLogout, apiRefreshToken, apiVerify } from '@/api/user.api';
+import { TLoginParams, TTokenResult, apiLogin, apiLogout, apiVerify } from '@/api/user.api';
 import useGlobalStore from './global.store';
 
 import { HTTP_STATUS_CODE, COOKIE_KEYS, LS_KEYS, ROLE } from '@/constants/common';
@@ -21,7 +21,6 @@ type TAuthState = {
   login: (params: TLoginParams) => void;
   verify: (params: TLoginParams) => void;
   logout: () => void;
-  refreshToken: () => Promise<void>;
 };
 
 const checkIsAuthenticated = () => {
@@ -87,10 +86,6 @@ const useAuthStore = create<TAuthState>((set, get) => {
       await apiLogout();
       get().reset();
       setLoading(false);
-    },
-    refreshToken: async () => {
-      const refreshToken = localStorage.getItem(REFRESH_TOKEN);
-      if (refreshToken) await apiRefreshToken({ refreshToken });
     },
     setRole: (role: ROLE) => set({ role }),
   };

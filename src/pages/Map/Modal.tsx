@@ -41,19 +41,22 @@ const ModalMap = ({ open, isEditing, mapData, onSuccess = () => {}, onCancel }: 
       if (data.result) {
         setState(data.result.path);
       }
+      return data.result.path;
     } catch (error) {}
   };
   const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
     if (newFileList.length > 0) {
       newFileList = newFileList.reverse();
-      await handleUploadFile(newFileList[0].originFileObj as File, setFileUpload);
+      const path = await handleUploadFile(newFileList[0].originFileObj as File, setFileUpload);
+      form.setFieldValue('json', path);
       setFileList([{ ...newFileList[0], status: 'done' }]);
     } else setFileList([]);
   };
   const handlePreviewImageChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
     if (newFileList.length > 0) {
       newFileList = newFileList.reverse();
-      await handleUploadFile(newFileList[0].originFileObj as File, setImgUpload);
+      const path = await handleUploadFile(newFileList[0].originFileObj as File, setImgUpload);
+      form.setFieldValue('preview', path);
       setImgList([{ ...newFileList[0], status: 'done' }]);
     } else setImgList([]);
   };
@@ -186,7 +189,7 @@ const ModalMap = ({ open, isEditing, mapData, onSuccess = () => {}, onCancel }: 
         });
       }
     } else {
-      form.resetFields();
+      //form.resetFields();
     }
   }, [open, mapData, form]);
   return (
